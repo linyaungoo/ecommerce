@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Hero from "../../components/Hero/Hero";
 import Products from "../../components/Products/Products";
 import FeatureCard from "../../components/FeatureCard/Features";
 import StatCard from "../../components/StatCard/StatCard";
 const Home = () => {
+  const [products, setProduct] = useState([]);
+  useEffect(()=>{
+    const fetchProducts = async () =>{
+      const response = await  fetch('https://fakestoreapi.com/products')
+      const data = await response.json()
+      console.log(data)
+      setProduct(data)
+    }
+    fetchProducts()
+  },[] 
+    
+  )
   return (
     <>
       <Hero />
@@ -15,6 +27,11 @@ const Home = () => {
           Most Popular Products
         </h1>
       </div>
+      {
+        products.length > 0 ? <Products products={products}/>
+        :
+        <div>Loading...</div>
+      }
       <Products />
       <FeatureCard />
       <StatCard/>
